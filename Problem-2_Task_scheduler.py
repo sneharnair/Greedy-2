@@ -37,3 +37,46 @@ class Solution:
         
         idle_time = max(0, idle_time)
         return len(tasks) + idle_time
+
+    
+ 
+
+# APPROACH 2: Greedy solution (CLASS) 
+# Time Complexity : O(n), n: length of tasks
+# Space Complexity : O(1), size of hashmap constant as it can have only A-Z, 26 constant size
+# Did this code successfully run on Leetcode : Yes
+# Any problem you faced while coding this : None
+#
+#
+# Your code here along with comments explaining your approach
+# 1. Same intuition as above. 
+# 2. Number of partition (ie., empty slots) will be maximum frequency of the task - 1. (blank spaces between tasks). 
+# 3. To get total length of empty slots => number of partitions * (n - number of tasks having frequency as the maximum frequency + 1)
+# 4. To get the remaining pending tasks (after considering tasks with maximum frequency), length of tasks (total number of tasks) - (number of tasks having frequency as the 
+#    maximum frequency * maximum frequency)
+# 5. To get idle time => length of empty slots - reminainig pending tasks
+
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        
+        if tasks is None or len(tasks) < 1:
+            return 0
+        
+        hashmap_freq, maxFreq = defaultdict(int), 0
+        for char in tasks:
+            hashmap_freq[char] += 1
+            maxFreq = max(maxFreq, hashmap_freq[char])
+            
+        maxFreqTasks = 0
+        for key in hashmap_freq:
+            if hashmap_freq[key] == maxFreq:
+                maxFreqTasks += 1
+            
+        num_partitions = maxFreq - 1
+        num_empty_slots = num_partitions * (n - maxFreqTasks + 1)
+        num_pending_tasks = len(tasks) - (maxFreq * maxFreqTasks)
+        idle_slots = max(0, num_empty_slots - num_pending_tasks)
+        
+        CPU_time = len(tasks) + idle_slots
+        
+        return CPU_time
