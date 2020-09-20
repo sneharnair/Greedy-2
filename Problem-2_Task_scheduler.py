@@ -12,7 +12,8 @@
 #    length same as n. 
 # 3. Get the frequency of all tasks and sort them in descending order. 
 # 4. now for each task decrease the idle time by minimum of (maximum frequency -1 -> when we have more than one task of same maximum frequency, current frequency)
-# 5. If at any point while processing
+# 5. If at any point while processing, if idle time becomes negative, then stop (meaning there's no idle slots for CPU). the result is just the length of tasks
+# 6. If not at the end, the result is length of tasks + number of idle slots
 
 
 class Solution:
